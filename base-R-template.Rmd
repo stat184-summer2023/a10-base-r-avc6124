@@ -1,7 +1,7 @@
 ---
-title: "Fix the title"
-author: "Your Name Here"
-date: "Add the date"
+title: "Activity: Base R"
+author: "Alvin Chen"
+date: "June 23, 2023"
 output: 
     html_notebook
 ---
@@ -13,20 +13,35 @@ output:
 ```{r}
 data(iris)
 
+iris_element <-
+  iris[10, 5] # 10th row 5th column 
+
+print(iris_element)
 ```
 
 
 #### Select the Species column in `iris` dataset and print the last 5 rows of that column
 ```{r}
+selected_column <- 
+  iris$Petal.Width # select column in data set
 
+last_five_rows <-
+  tail(selected_column, 5) # get last 5 rows 
+
+print(last_five_rows)
 ```
 
 
 #### What is the average Sepal Length of flowers with Petal widths greater than 1? 
 
 ```{r}
+greater_than_one <-
+  subset(iris, Petal.Width > 1) # get petals greater than 1
 
+mean_sepal_len <-
+  mean(greater_than_one$Sepal.Length) # get mean of speal length that match cond.
 
+print(mean_sepal_len)
 ```
 
 ### Question 2: For Loops
@@ -34,7 +49,14 @@ data(iris)
 #### Write a `for` loop that iterates over the numbers 1 to 10. If the number less than 5 print the multiple of 3 (multiply the number by 3), and if the number is greater than or equal to 5 print the multiple of 2 (multiply the number by 2). 
 
 ```{r}
-
+for (i in 1:10) { # iterate through 1 to 10
+  if (i < 5) { # if less than 5
+    i = i * 3 # multiply num by 3
+  } else { # if 5 or greater 
+    i = i * 2 #multiply by 2 
+  }
+  print(i) # print out i
+}
 ```
 
 ### Question 3: While loops
@@ -43,11 +65,20 @@ data(iris)
 ```{r}
 set.seed(184)
 
+while (TRUE) {
+  ran_norm <- rnorm(1, mean = 1, sd = 2)
+  print(ran_norm)
+  
+  if (ran_norm > 3) {
+    break
+  }
+}
+
 ```
 
 ### Question 4: for loops in data tables
 
-#### Use a nested for loop that produces the following data frame. Name the dataframe  `Counting` and the variables (columns)  V1, V2, V3, and V4.  (There are 3 loops). 
+#### Use a nested for loop that produces the following data frame. Name the dataframe `Counting` and the variables (columns)  V1, V2, V3, and V4.  (There are 3 loops). 
 
 Hint: First identify the pattern(s) in the table before you create the for loop.
 
@@ -58,7 +89,21 @@ Hint: First identify the pattern(s) in the table before you create the for loop.
 | 3 | 4 | 5 | 6 |  
 
 ```{r}
+Counting <- data.frame(V1, V2, V3, V4) # make data frame
+  
+for (i in 1:4) {  # for loop 1
+  for (j in 2:5) {  # for loop 2
+    for (k in 3:6) {  # for loop 3 
+      V1 = c(i, j, k) - 3  # v1 numbers
+      V2 = c(i, j, k) - 2  # v2 numbers
+      V3 = c(i, j, k) - 1  # v3 numbers
+      V4 = c(i, j, k)  # v4 numbers
+    }
+  }
+}
 
+print(Counting) # print dataframe
+  
 ```
 
 ### Question 5: user defined functions
@@ -70,10 +115,12 @@ Hint: First identify the pattern(s) in the table before you create the for loop.
 ```{r}
 set.seed(184)
 plotNormal <- function(repitions, mean, sd){
+  rand_num <- rnorm(repitions, mean = mean, sd = sd) # generate random numbers
   
+  hist(rand_num)
 }
 
-
+plotNormal(1000, mean = 0, sd = 1) # call function with given parameters 
 ```
 
 ##### Extra Credit: 
@@ -86,7 +133,14 @@ Repeat parts 5A and 5B, and add
 Call the function to generate 1000 random normal numbers with mean 0 and standard deviation 1 and plot a histogram. Make the bins blue.
 
 ```{r}
+set.seed(184)
+plotNormal <- function(repitions, mean, sd, color){
+  rand_num <- rnorm(repitions, mean = mean, sd = sd) # generate random numbers
+  # add a title with the given instructions
+  hist(rand_num, main = paste("Histogram from a Normal(", mean, ",", sd, ")", " Distribution"), col = color)
+}
 
+plotNormal(1000, mean = 0, sd = 1, color = "blue") # call function with given parameters 
 
 
 ```
